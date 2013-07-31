@@ -1,4 +1,4 @@
-````
+````php
 // Custom post type args
 $movie_args = array(
 	'exclude_from_search' => true,
