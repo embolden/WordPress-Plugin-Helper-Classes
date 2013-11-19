@@ -241,7 +241,4 @@ class Custom_Taxonomy {
 	}
 }
 endif;
-
-class Custom_Taxonomy_Exists_Exception extends Exception {};
-class Custom_Taxonomy_Reserved_Exception extends Exception {};
 ?>
