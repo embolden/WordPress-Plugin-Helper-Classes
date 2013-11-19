@@ -1,24 +1,25 @@
 <?php
-/*
+/**
  * Custom Taxonomy Helper
  */
 if( ! class_exists( 'CustomTaxonomy' ) ) :
 class CustomTaxonomy {
 
-	public $taxonomy_singular;
-	public $taxonomy_plural;
-	public $post_types;
-	public $taxonomy_args;
+	private $post_types;
+	private $taxonomy_singular;
+	private $taxonomy_plural;
+	private $taxonomy_args;
 
-	/*
+	/**
 	 * @todo : Document me!
 	 */
 	function __construct( $singular, $plural, $post_types, $args = array() ) {
-		$this->taxonomy_singular = $singular;
-		$this->taxonomy_plural   = $plural;
-		$this->post_types        = $post_types;
-		$this->taxonomy_args     = $args;
 
+		set_post_types( $post_types );
+		set_taxonomy_singular( $taxonomy_singular );
+		set_taxonomy_plural( $taxonomy_plural );
+		set_taxonomy_args( $taxonomy_args );
+		
 		$singular = strtolower( $singular );
 
 		if( taxonomy_exists( $singular ) ) {
@@ -32,7 +33,63 @@ class CustomTaxonomy {
 		add_action( 'init', array( $this, 'register_taxonomy' ) );
 	}
 
-	/*
+	/**
+	 * @todo: Document me!
+	 */
+	function set_post_types( $post_types ) {
+		$this->post_types = $post_types;
+	}
+
+	/**
+	 * @todo: Document me!
+	 */
+	function get_post_types() {
+		return $this->post_types;
+	}
+
+	/**
+	 * @todo: Document me!
+	 */
+	function set_taxonomy_singular( $taxonomy_singular ) {
+		$this->taxonomy_singular = $taxonomy_singular;
+	}
+
+	/**
+	 * @todo: Document me!
+	 */
+	function get_taxonomy_singular() {
+		return $this->taxonomy_singular;
+	}
+
+	/**
+	 * @todo: Document me!
+	 */
+	function set_taxonomy_plural( $taxonomy_plural ) {
+		$this->taxonomy_plural = $taxonomy_plural;
+	}
+
+	/**
+	 * @todo: Document me!
+	 */
+	function get_taxonomy_plural() {
+		return $this->taxonomy_plural;
+	}
+
+	/**
+	 * @todo: Document me!
+	 */
+	function set_taxonomy_args( $taxonomy_args ) {
+		$this->taxonomy_args = $taxonomy_args;
+	}
+
+	/**
+	 * @todo: Document me!
+	 */
+	function get_taxonomy_args() {
+		return $this->taxonomy_args;
+	}
+
+	/**
 	 * @todo : Document me!
 	 */
 	function taxonomy_reserved( $new_taxonomy ) {
@@ -126,7 +183,7 @@ class CustomTaxonomy {
 		return false;
 	}
 
-	/*
+	/**
  	 * @todo : Document me!
 	 */
 	function register_taxonomy() {
