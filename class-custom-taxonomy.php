@@ -19,24 +19,22 @@ class Custom_Taxonomy {
 		$this->set_taxonomy_singular( $singular );
 		$this->set_taxonomy_plural( $plural );
 		$this->set_taxonomy_args( $args );
-		$errors = array();
+		$error = false;
 		
 		$singular = strtolower( $singular );
 
-		if( taxonomy_exists( $singular ) ) {
-			$errors[] = new WP_Error( 'custom_taxonomy_exists', __( 'The taxonomy that you have chosen already exists.', '_s' ) );
+		if( ! $error && taxonomy_exists( $singular ) ) {
+			$error = new WP_Error( 'custom_taxonomy_exists', __( 'The taxonomy that you have chosen already exists.', '_s' ) );
 		}
 
-		if( $this->taxonomy_reserved( $singular ) ) {
-			$errors[] = new WP_Error( 'custom_taxonomy_reserved', __( 'The taxonomy that you have chosen is reserved by WordPress.', '_s' ) );
+		if( ! $error && $this->taxonomy_reserved( $singular ) ) {
+			$error = new WP_Error( 'custom_taxonomy_reserved', __( 'The taxonomy that you have chosen is reserved by WordPress.', '_s' ) );
 		}
 
-		if( ! $errors ) {
+		if( ! $error ) {
 			add_action( 'init', array( $this, 'register_taxonomy' ) );
 		}else {
-			foreach( $errors as $error ) {
-				throw new Exception( $error->get_error_message() );
-			}
+			throw new Exception( $error->get_error_message() );
 		}
 	}
 
