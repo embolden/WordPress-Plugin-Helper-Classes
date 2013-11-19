@@ -7,14 +7,16 @@ class CustomTaxonomy {
 
 	public $taxonomy_singular;
 	public $taxonomy_plural;
+	public $post_types;
 	public $taxonomy_args;
 
 	/*
 	 * @todo : Document me!
 	 */
-	function __construct( $singular, $plural, $args = array() ) {
+	function __construct( $singular, $plural, $post_types, $args = array() ) {
 		$this->taxonomy_singular = $singular;
 		$this->taxonomy_plural   = $plural;
+		$this->post_types        = $post_types;
 		$this->taxonomy_args     = $args;
 
 		$singular = strtolower( $singular );
@@ -131,6 +133,7 @@ class CustomTaxonomy {
 		$singular         = $this->taxonomy_singular;
 		$plural           = $this->taxonomy_plural;
 		$lowercase_plural = strtolower( $plural );
+		$post_types       = $this->post_types;
 
 		$labels = array(
 			'name'                       => _x( $plural, 'Taxonomy General Name', '_s' ),
@@ -170,7 +173,7 @@ class CustomTaxonomy {
 
 		$args = wp_parse_args( $this->taxonomy_args, $defaults );
 
-		register_taxonomy( str_replace( ' ', '-', strtolower( $singular ) ), $args );
+		register_taxonomy( str_replace( ' ', '-', strtolower( $singular ) ), $post_types, $args );
 	}
 }
 endif;
