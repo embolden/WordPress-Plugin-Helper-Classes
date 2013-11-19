@@ -19,11 +19,11 @@ class CustomTaxonomy {
 
 		$singular = strtolower( $singular );
 
-		if( ! taxonomy_exists( $singular ) ) {
+		if( taxonomy_exists( $singular ) ) {
 			return new WP_Error( 'custom_taxonomy_exists', __( 'The taxonomy that you have chosen already exists.', '_s' ) )
 		}
 
-		if( taxonomy_name_is_not_reserved( $singular ) ) {
+		if( $this->taxonomy_name_is_not_reserved( $singular ) ) {
 			return new WP_Error( 'custom_taxonomy_reserved', __( 'The taxonomy that you have chosen is reserved by WordPress.', '_s' ) );
 		}
 
