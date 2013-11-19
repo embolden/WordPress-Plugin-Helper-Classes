@@ -33,7 +33,7 @@ class CustomTaxonomy {
 	/*
 	 * @todo : Document me!
 	 */
-	function taxonomy_name_is_not_reserved( $singular ) {
+	function taxonomy_name_is_not_reserved( $new_taxonomy ) {
 		$reserved_taxonomies = array(
 			'attachment,'
 			'attachment_id,'
@@ -116,12 +116,12 @@ class CustomTaxonomy {
 		);
 		
 		foreach( $reserved_taxonomies as $reserved_taxonomy ) {
-			if( $singular === $reserved_taxonomy ) {
+			if( $new_taxonomy === $reserved_taxonomy ) {
 				return false;
 			}
 		}
 
-		return $singular;
+		return $new_taxonomy;
 	}
 
 	/*
