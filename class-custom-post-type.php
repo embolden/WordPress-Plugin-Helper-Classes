@@ -5,17 +5,17 @@
 if( ! class_exists( 'Custom_Post_Type' ) ) :
 class Custom_Post_Type {
 
-	public $post_type_singular;
-	public $post_type_plural;
-	public $post_type_args;
+	private $post_type_singular;
+	private $post_type_plural;
+	private $post_type_args;
 
 	/**
 	 * @todo : Document me!
 	 */
 	function __construct( $singular, $plural, $args = array() ) {
-		$this->post_type_singular = $singular;
-		$this->post_type_plural   = $plural;
-		$this->post_type_args     = $args;
+		$this->set_post_type_singular( $singular );
+		$this->set_post_type_plural( $plural );
+		$this->set_post_type_args( $args );
 
 		$singular = strtolower( $singular );
 
@@ -28,6 +28,48 @@ class Custom_Post_Type {
 		}
 
 		add_action( 'init', array( $this, 'register_post_type' ) );
+	}
+
+	/**
+	 * @todo: Document me!
+	 */
+	function set_post_type_singular( $singular ) {
+		$this->post_type_singular = $singular;
+	}
+
+	/**
+	 * @todo: Document me!
+	 */
+	function get_post_type_singular() {
+		return $this->post_type_singular;
+	}
+
+	/**
+	 * @todo: Document me!
+	 */
+	function set_post_type_plural( $plural ) {
+		$this->post_type_plural = $plural;
+	}
+
+	/**
+	 * @todo: Document me!
+	 */
+	function get_post_type_plural() {
+		return $this->post_type_plural;
+	}
+
+	/**
+	 * @todo: Document me!
+	 */
+	function set_post_type_args( $args ) {
+		$this->post_type_args = $args;
+	}
+
+	/**
+	 * @todo: Document me!
+	 */
+	function get_post_type_args() {
+		return $this->post_type_args;
 	}
 
 	/**
@@ -57,8 +99,9 @@ class Custom_Post_Type {
 	 * @todo : Document me!
 	 */
 	function register_post_type() {
-		$singular = $this->post_type_singular;
-		$plural   = $this->post_type_plural;
+		$singular         = $this->get_post_type_singular();
+		$plural           = $this->get_post_type_plural();
+		$lowercase_plural = strtolower( $plural );
 
 		$labels = array(
 			'name'                => _x( $plural, 'Post Type General Name', '_s' ),
@@ -72,8 +115,8 @@ class Custom_Post_Type {
 			'edit_item'           => __( 'Edit ' . $singular , '_s' ),
 			'update_item'         => __( 'Update ' . $plural, '_s' ),
 			'search_items'        => __( 'Search ' . $plural, '_s' ),
-			'not_found'           => __( 'No ' . strtolower( $plural ) . ' found', '_s' ),
-			'not_found_in_trash'  => __( 'No ' . strtolower( $plural ) . ' found in Trash', '_s' ),
+			'not_found'           => __( 'No ' . $lowercase_plural . ' found', '_s' ),
+			'not_found_in_trash'  => __( 'No ' . $lowercase_plural . ' found in Trash', '_s' ),
 		);
 
 		$defaults = array(
