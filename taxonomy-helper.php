@@ -10,7 +10,7 @@ class CustomTaxonomy {
 	public $taxonomy_args;
 
 	/*
-	 * @todo : Error message
+	 * @todo : Document me!
 	 */
 	function __construct( $singular, $plural, $args = array() ) {
 		$this->taxonomy_singular = $singular;
@@ -19,13 +19,19 @@ class CustomTaxonomy {
 
 		$singular = strtolower( $singular );
 
-		if( ! taxonomy_exists( $singular ) && taxonomy_name_is_not_reserved( $singular ) ) {
-			add_action( 'init', array( $this, 'register_taxonomy' ) );
+		if( ! taxonomy_exists( $singular ) ) {
+			return new WP_Error( 'custom_taxonomy_exists', __( 'The taxonomy that you have chosen already exists.', '_s' ) )
 		}
+
+		if( taxonomy_name_is_not_reserved( $singular ) ) {
+			return new WP_Error( 'custom_taxonomy_reserved', __( 'The taxonomy that you have chosen is reserved by WordPress.', '_s' ) );
+		}
+
+		add_action( 'init', array( $this, 'register_taxonomy' ) );
 	}
 
 	/*
-	 * Check if the chosen taxonomy is a reserved taxonomy
+	 * @todo : Document me!
 	 */
 	function taxonomy_name_is_not_reserved( $singular ) {
 		$reserved_taxonomies = array(
