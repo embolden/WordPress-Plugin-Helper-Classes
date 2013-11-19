@@ -10,22 +10,24 @@ class CustomTaxonomy {
 	public $taxonomy_args;
 
 	/*
-	 *
+	 * @todo : Error message
 	 */
 	function __construct( $singular, $plural, $args = array() ) {
 		$this->taxonomy_singular = $singular;
 		$this->taxonomy_plural   = $plural;
 		$this->taxonomy_args     = $args;
 
-		if( ! taxonomy_exists( strtolower( $singular ) ) && validate_taxonomy_name( srttolower( $singular ) ) ) {
+		$singular = strtolower( $singular );
+
+		if( ! taxonomy_exists( $singular ) && taxonomy_name_is_not_reserved( $singular ) ) {
 			add_action( 'init', array( $this, 'register_taxonomy' ) );
 		}
 	}
 
 	/*
-	 * @todo finish validation against list of reserved
+	 * Check if the chosen taxonomy is a reserved taxonomy
 	 */
-	function validate_taxonomy_name( $singular ) {
+	function taxonomy_name_is_not_reserved( $singular ) {
 		$reserved_taxonomies = array(
 			'attachment,'
 			'attachment_id,'
@@ -108,18 +110,21 @@ class CustomTaxonomy {
 		);
 		
 		foreach( $reserved_taxonomies as $reserved_taxonomy ) {
-			if( $singular === $reserved_taxonomy )
+			if( $singular === $reserved_taxonomy ) {
 				return false;
+			}
 		}
+
 		return $singular;
 	}
 
 	/*
-	 *
+ 	 * @todo : Document me!
 	 */
 	function register_taxonomy() {
-		$singular   = $this->taxonomy_singular;
-		$plural = $this->taxonomy_plural;
+		$singular         = $this->taxonomy_singular;
+		$plural           = $this->taxonomy_plural;
+		$lowercase_plural = strtolower( $plural );
 
 		$labels = array(
 			'name'                       => _x( $plural, 'Taxonomy General Name', '_s' ),
@@ -133,18 +138,17 @@ class CustomTaxonomy {
 			'parent_item'                => __( 'Parent ' . $singular, '_s' ),
 			'parent_item_colon'          => __( 'Parent ' . $singular . ':', '_s' ),
 			'search_items'               => __( 'Search ' . $plural, '_s' ),
-			'not_found'                  => __( 'No ' . strtolower( $plural ) . ' found', '_s' ),
-			'popular_items'              => __( 'Popular ' . strtolower( $plural ), '_s' ),
-			'separate_items_with_commas' => __( 'Separate ' . strtolower( $plural ) . ' with commas', '_s' ),
-			'add_or_remove_items'        => __( 'Add or remove ' . strtolower( $plural ) ),
-			'choose_from_most_used'      => __( 'Choose from the most used ' . strtolower( $plural ) ),
-			'not_found'                  => __( 'No ' . strtolower( $plural ) . ' found.', '_s' ),
+			'not_found'                  => __( 'No ' . $lowercase_plural . ' found', '_s' ),
+			'popular_items'              => __( 'Popular ' . $lowercase_plural, '_s' ),
+			'separate_items_with_commas' => __( 'Separate ' . $lowercase_plural . ' with commas', '_s' ),
+			'add_or_remove_items'        => __( 'Add or remove ' . $lowercase_plural ),
+			'choose_from_most_used'      => __( 'Choose from the most used ' . $lowercase_plural ),
+			'not_found'                  => __( 'No ' . $lowercase_plural . ' found.', '_s' ),
 		);
 
 		$defaults = array(
 			'label'                 => '',
 			'labels'                => $labels,
-			// 'description'           => '',
 			'public'                => true,
 			'show_ui'               => true,
 			'show_in_nav_menus'     => true,
