@@ -10,7 +10,7 @@ require_once( 'includes/class-custom-post-type.php' );
 require_once( 'includes/class-custom-taxonomy.php' );
 ```
 
-###Second 2
+###Step 2
 In your plugin file, declare the appropriate arguments.  You can view all the possible parameters on the codex page for [post types](http://codex.wordpress.org/Function_Reference/register_post_type) and [taxonomies](http://codex.wordpress.org/Function_Reference/register_taxonomy).
 
 ```php
