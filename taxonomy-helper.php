@@ -23,7 +23,7 @@ class CustomTaxonomy {
 			return new WP_Error( 'custom_taxonomy_exists', __( 'The taxonomy that you have chosen already exists.', '_s' ) );
 		}
 
-		if( $this->taxonomy_name_is_not_reserved( $singular ) ) {
+		if( $this->taxonomy_reserved( $singular ) ) {
 			return new WP_Error( 'custom_taxonomy_reserved', __( 'The taxonomy that you have chosen is reserved by WordPress.', '_s' ) );
 		}
 
@@ -33,7 +33,7 @@ class CustomTaxonomy {
 	/*
 	 * @todo : Document me!
 	 */
-	function taxonomy_name_is_not_reserved( $new_taxonomy ) {
+	function taxonomy_reserved( $new_taxonomy ) {
 		$reserved_taxonomies = array(
 			'attachment',
 			'attachment_id',
@@ -117,11 +117,11 @@ class CustomTaxonomy {
 		
 		foreach( $reserved_taxonomies as $reserved_taxonomy ) {
 			if( $new_taxonomy === $reserved_taxonomy ) {
-				return false;
+				return $new_taxonomy;
 			}
 		}
 
-		return $new_taxonomy;
+		return false;
 	}
 
 	/*
