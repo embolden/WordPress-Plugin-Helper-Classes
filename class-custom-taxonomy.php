@@ -15,22 +15,29 @@ class Custom_Taxonomy {
 	 */
 	function __construct( $singular, $plural, $post_types, $args = array() ) {
 
-		set_post_types( $post_types );
-		set_taxonomy_singular( $taxonomy_singular );
-		set_taxonomy_plural( $taxonomy_plural );
-		set_taxonomy_args( $taxonomy_args );
+		$this->set_post_types( $post_types );
+		$this->set_taxonomy_singular( $singular );
+		$this->set_taxonomy_plural( $plural );
+		$this->set_taxonomy_args( $args );
+		$errors = array();
 		
 		$singular = strtolower( $singular );
 
 		if( taxonomy_exists( $singular ) ) {
-			return new WP_Error( 'custom_taxonomy_exists', __( 'The taxonomy that you have chosen already exists.', '_s' ) );
+			$errors[] = new WP_Error( 'custom_taxonomy_exists', __( 'The taxonomy that you have chosen already exists.', '_s' ) );
 		}
 
 		if( $this->taxonomy_reserved( $singular ) ) {
-			return new WP_Error( 'custom_taxonomy_reserved', __( 'The taxonomy that you have chosen is reserved by WordPress.', '_s' ) );
+			$errors[] = new WP_Error( 'custom_taxonomy_reserved', __( 'The taxonomy that you have chosen is reserved by WordPress.', '_s' ) );
 		}
 
-		add_action( 'init', array( $this, 'register_taxonomy' ) );
+		if( ! $errors ) {
+			add_action( 'init', array( $this, 'register_taxonomy' ) );
+		}else {
+			foreach( $errors as $error ) {
+				throw new Exception( $error->get_error_message() );
+			}
+		}
 	}
 
 	/**
@@ -234,4 +241,7 @@ class Custom_Taxonomy {
 	}
 }
 endif;
+
+class Custom_Taxonomy_Exists_Exception extends Exception {};
+class Custom_Taxonomy_Reserved_Exception extends Exception {};
 ?>
