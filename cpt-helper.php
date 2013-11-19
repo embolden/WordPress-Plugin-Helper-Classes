@@ -17,9 +17,13 @@ class CustomPostType {
 		$this->post_type_plural   = $plural;
 		$this->post_type_args     = $args;
 
-		if( ! post_type_exists( strtolower( $singular ) ) ) {
-			add_action( 'init', array( $this, 'register_post_type' ) );
+		$singular = strtolower( $singular );
+
+		if( post_type_exists( $singular ) ) {
+			return new WP_Error( 'custom_posttype_exists', __( 'The post type that you have chosen already exists.', '_s' ) );
 		}
+
+		add_action( 'init', array( $this, 'register_post_type' ) );
 	}
 
 	/*
