@@ -16,18 +16,23 @@ class Custom_Post_Type {
 		$this->set_post_type_singular( $singular );
 		$this->set_post_type_plural( $plural );
 		$this->set_post_type_args( $args );
+		$error = false;
 
 		$singular = strtolower( $singular );
 
-		if( post_type_exists( $singular ) ) {
-			return new WP_Error( 'custom_post_type_exists', __( 'The post type that you have chosen already exists.', '_s' ) );
+		if( ! $error && post_type_exists( $singular ) ) {
+			new WP_Error( 'custom_post_type_exists', __( 'The post type that you have chosen already exists.', '_s' ) );
 		}
 
-		if( post_type_name_is_not_reserved( $singular ) ) {
-			return new WP_Error( 'custom_post_type_reserved', __( 'The post type that you have chosen is reserved by WordPress.' ) );
+		if( ! $error && post_type_name_is_not_reserved( $singular ) ) {
+			new WP_Error( 'custom_post_type_reserved', __( 'The post type that you have chosen is reserved by WordPress.' ) );
 		}
 
-		add_action( 'init', array( $this, 'register_post_type' ) );
+		if( ! $error ) {
+			add_action( 'init', array( $this, 'register_post_type' ) );
+		}else {
+			throw new Exception( $error->get_error_message() );
+		}
 	}
 
 	/**
