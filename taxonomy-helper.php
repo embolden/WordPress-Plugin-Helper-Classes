@@ -2,8 +2,8 @@
 /**
  * Custom Taxonomy Helper
  */
-if( ! class_exists( 'CustomTaxonomy' ) ) :
-class CustomTaxonomy {
+if( ! class_exists( 'Custom_Taxonomy' ) ) :
+class Custom_Taxonomy {
 
 	private $post_types;
 	private $taxonomy_singular;
