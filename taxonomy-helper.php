@@ -187,10 +187,10 @@ class Custom_Taxonomy {
  	 * @todo : Document me!
 	 */
 	function register_taxonomy() {
-		$singular         = $this->taxonomy_singular;
-		$plural           = $this->taxonomy_plural;
+		$post_types       = $this->get_post_types();
+		$singular         = $this->get_taxonomy_singular();
+		$plural           = $this->get_taxonomy_plural();
 		$lowercase_plural = strtolower( $plural );
-		$post_types       = $this->post_types;
 
 		$labels = array(
 			'name'                       => _x( $plural, 'Taxonomy General Name', '_s' ),
@@ -228,7 +228,7 @@ class Custom_Taxonomy {
 			'sort'                  => null,
 		);
 
-		$args = wp_parse_args( $this->taxonomy_args, $defaults );
+		$args = wp_parse_args( $this->get_taxonomy_args(), $defaults );
 
 		register_taxonomy( str_replace( ' ', '-', strtolower( $singular ) ), $post_types, $args );
 	}
