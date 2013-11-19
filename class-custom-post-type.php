@@ -1,15 +1,15 @@
 <?php
-/*
+/**
  * Custom Post Type Helper
  */
-if( ! class_exists( 'CustomPostType' ) ) :
-class CustomPostType {
+if( ! class_exists( 'Custom_Post_Type' ) ) :
+class Custom_Post_Type {
 
 	public $post_type_singular;
 	public $post_type_plural;
 	public $post_type_args;
 
-	/*
+	/**
 	 * @todo : Document me!
 	 */
 	function __construct( $singular, $plural, $args = array() ) {
@@ -30,7 +30,7 @@ class CustomPostType {
 		add_action( 'init', array( $this, 'register_post_type' ) );
 	}
 
-	/*
+	/**
 	 * @todo : Document me!
 	 */
 	function post_type_name_is_not_reserved( $new_post_type ) {
@@ -53,7 +53,7 @@ class CustomPostType {
 		return $new_post_type;
 	}
 
-	/*
+	/**
 	 * @todo : Document me!
 	 */
 	function register_post_type() {
