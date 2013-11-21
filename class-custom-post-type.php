@@ -24,7 +24,7 @@ class Custom_Post_Type {
 			new WP_Error( 'custom_post_type_exists', __( 'The post type that you have chosen already exists.', '_s' ) );
 		}
 
-		if( ! $error && post_type_name_is_not_reserved( $singular ) ) {
+		if( ! $error && $this->post_type_reserved( $singular ) ) {
 			new WP_Error( 'custom_post_type_reserved', __( 'The post type that you have chosen is reserved by WordPress.' ) );
 		}
 
@@ -80,7 +80,7 @@ class Custom_Post_Type {
 	/**
 	 * @todo : Document me!
 	 */
-	function post_type_name_is_not_reserved( $new_post_type ) {
+	function post_type_reserved( $new_post_type ) {
 		$reserved_post_types = array(
 			'post',
 			'page',
@@ -93,11 +93,11 @@ class Custom_Post_Type {
 
 		foreach( $reserved_post_types as $reserved_post_type ) {
 			if( $new_post_type === $reserved_post_type ) {
-				return false;
+				return $new_post_type;
 			}
 		}
 
-		return $new_post_type;
+		return false;
 	}
 
 	/**
