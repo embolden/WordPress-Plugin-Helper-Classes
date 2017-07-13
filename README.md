@@ -1,8 +1,8 @@
-#WordPress Plugin Helper Classes
+# WordPress Plugin Helper Classes
 These helper classes have been designed for use in simple plugins.
 
-##Installation
-###Step 1
+## Installation
+### Step 1
 Download the `class-custom-post-type.php` and `class-custom-taxonomy.php` files and put it into an `includes/` directory of your plugin.  Add a `require_once` to the top of your plugin file to include the helper classes.
 
 ```php
@@ -10,7 +10,7 @@ require_once( 'includes/class-custom-post-type.php' );
 require_once( 'includes/class-custom-taxonomy.php' );
 ```
 
-###Step 2
+### Step 2
 In your plugin file, declare the appropriate arguments.  You can view all the possible parameters on the codex page for [post types](http://codex.wordpress.org/Function_Reference/register_post_type) and [taxonomies](http://codex.wordpress.org/Function_Reference/register_taxonomy).
 
 ```php
@@ -30,7 +30,7 @@ $actors_args = array(
 );
 ```
 
-###Step 3
+### Step 3
 If registering a custom taxonomy a group of post types must also be declared.  These post types will be assigned our custom taxonomy.
 
 ````php
@@ -39,7 +39,7 @@ $post_types = array( 'movie' );
 ````
 
 
-###Step 4
+### Step 4
 In your plugin file, declare a new instance of the helper class and pass the singular name, plural name, and the list of arguments.
 
 ```php
